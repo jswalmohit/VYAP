@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopManagementSystem.Infrastructure.Persistence;
@@ -21,17 +22,34 @@ public class StatusCheckController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        bool dbConnected;
+        bool dbConnected = false;
         string? dbError = null;
         try
         {
             dbConnected = await _context.Database.CanConnectAsync();
+
+            // If CanConnectAsync returns false without exception, try opening a raw connection
+            if (!dbConnected)
+            {
+                try
+                {
+                    var conn = _context.Database.GetDbConnection();
+                    await conn.OpenAsync();
+                    dbConnected = conn.State == ConnectionState.Open;
+                    await conn.CloseAsync();
+                }
+                catch (Exception openEx)
+                {
+                    _logger.LogError(openEx, "Database open attempt failed");
+                    dbError = openEx.Message + (openEx.InnerException != null ? " | " + openEx.InnerException.Message : string.Empty);
+                }
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Database connection failed");
+            _logger.LogError(ex, "Database CanConnectAsync failed");
             dbConnected = false;
-            dbError = ex.Message;
+            dbError = ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : string.Empty);
         }
 
         var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
