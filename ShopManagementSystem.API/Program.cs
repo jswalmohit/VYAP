@@ -14,6 +14,13 @@ if (!string.IsNullOrWhiteSpace(port))
     builder.WebHost.UseUrls($"http://*:{port}");
 }
 
+// Override connection string from environment variable if available (for Render deployment)
+var connectionStringEnv = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+if (!string.IsNullOrWhiteSpace(connectionStringEnv))
+{
+    builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionStringEnv;
+}
+
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 

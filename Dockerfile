@@ -24,4 +24,5 @@ COPY --from=build /app/publish .
 EXPOSE 80
 ENV PORT=80
 ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_ENVIRONMENT=Production
 ENTRYPOINT ["dotnet", "ShopManagementSystem.API.dll"]
