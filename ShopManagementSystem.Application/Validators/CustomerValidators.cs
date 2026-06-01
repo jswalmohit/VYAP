@@ -11,13 +11,13 @@ public class CreateCustomerDtoValidator : AbstractValidator<CreateCustomerDto>
             .NotEmpty().WithMessage("CustomerName is required.")
             .MaximumLength(200).WithMessage("CustomerName must not exceed 200 characters.");
 
-        RuleFor(x => x.MobileNumber)
-            .NotEmpty().WithMessage("MobileNumber is required.")
-            .Matches(@"^\d{10}$").WithMessage("MobileNumber must be a 10-digit number.");
+        RuleFor(x => x.PhoneNumber)
+            .NotEmpty().WithMessage("PhoneNumber is required.")
+            .Matches(@"^\d{10}$").WithMessage("PhoneNumber must be a 10-digit number.");
 
         RuleFor(x => x.Address)
-            .NotEmpty().WithMessage("Address is required.")
-            .MaximumLength(500).WithMessage("Address must not exceed 500 characters.");
+            .MaximumLength(500).WithMessage("Address must not exceed 500 characters.")
+            .When(x => !string.IsNullOrEmpty(x.Address));
     }
 }
 
@@ -29,12 +29,12 @@ public class UpdateCustomerDtoValidator : AbstractValidator<UpdateCustomerDto>
             .NotEmpty().WithMessage("CustomerName is required.")
             .MaximumLength(200).WithMessage("CustomerName must not exceed 200 characters.");
 
-        RuleFor(x => x.MobileNumber)
-            .NotEmpty().WithMessage("MobileNumber is required.")
-            .Matches(@"^\d{10}$").WithMessage("MobileNumber must be a 10-digit number.");
+        RuleFor(x => x.PhoneNumber)
+            .NotEmpty().WithMessage("PhoneNumber is required.")
+            .Matches(@"^\d{10}$").WithMessage("PhoneNumber must be a 10-digit number.");
 
         RuleFor(x => x.Address)
-            .NotEmpty().WithMessage("Address is required.")
-            .MaximumLength(500).WithMessage("Address must not exceed 500 characters.");
+            .MaximumLength(500).WithMessage("Address must not exceed 500 characters.")
+            .When(x => !string.IsNullOrEmpty(x.Address));
     }
 }

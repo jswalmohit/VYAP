@@ -18,7 +18,7 @@ export const ApiEndpoints = {
   customers: {
     getAll: `${API_BASE_URL}/api/customers`,
     getById: (id: number) => `${API_BASE_URL}/api/customers/${id}`,
-    getByMobile: (mobileNumber: string) => `${API_BASE_URL}/api/customers/mobile/${mobileNumber}`,
+    getByPhone: (phoneNumber: string) => `${API_BASE_URL}/api/customers/phone/${phoneNumber}`,
     create: `${API_BASE_URL}/api/customers`,
     update: (id: number) => `${API_BASE_URL}/api/customers/${id}`,
     delete: (id: number) => `${API_BASE_URL}/api/customers/${id}`,

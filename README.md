@@ -130,7 +130,7 @@ All endpoints return a consistent wrapper:
 |--------|----------|-------------|
 | GET | `/api/customers` | Get all customers |
 | GET | `/api/customers/{id}` | Get customer by ID |
-| GET | `/api/customers/mobile/{mobileNumber}` | Get customer by mobile |
+| GET | `/api/customers/phone/{phoneNumber}` | Get customer by phone |
 | POST | `/api/customers` | Create customer |
 | PUT | `/api/customers/{id}` | Update customer |
 | DELETE | `/api/customers/{id}` | Delete customer |
@@ -139,7 +139,7 @@ All endpoints return a consistent wrapper:
 ```json
 {
   "customerName": "Amit Kumar",
-  "mobileNumber": "9988776655",
+  "phoneNumber": "9988776655",
   "address": "78 Ring Road, Delhi"
 }
 ```
@@ -167,7 +167,7 @@ All endpoints return a consistent wrapper:
 ## Business Rules
 
 - `ProductId` must be unique across products
-- `MobileNumber` must be unique across customers (10 digits)
+- `PhoneNumber` must be unique across customers (10 digits)
 - Stock is validated before billing; insufficient stock returns HTTP 400
 - Inventory is deducted after successful bill creation (transactional)
 - `BillNumber` is auto-generated: `BILL-YYYYMMDD-0001`

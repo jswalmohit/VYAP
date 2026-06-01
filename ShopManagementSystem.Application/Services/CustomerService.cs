@@ -32,19 +32,19 @@ public class CustomerService : ICustomerService
         return _mapper.Map<CustomerDto>(customer);
     }
 
-    public async Task<CustomerDto> GetByMobileNumberAsync(string mobileNumber, CancellationToken cancellationToken = default)
+    public async Task<CustomerDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
     {
-        var customer = await _unitOfWork.Customers.GetByMobileNumberAsync(mobileNumber, cancellationToken)
-            ?? throw new NotFoundException($"Customer with mobile number '{mobileNumber}' was not found.");
+        var customer = await _unitOfWork.Customers.GetByPhoneNumberAsync(phoneNumber, cancellationToken)
+            ?? throw new NotFoundException($"Customer with phone number '{phoneNumber}' was not found.");
 
         return _mapper.Map<CustomerDto>(customer);
     }
 
     public async Task<CustomerDto> CreateAsync(CreateCustomerDto dto, CancellationToken cancellationToken = default)
     {
-        if (!await _unitOfWork.Customers.IsMobileNumberUniqueAsync(dto.MobileNumber, cancellationToken: cancellationToken))
+        if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, cancellationToken: cancellationToken))
         {
-            throw new BusinessRuleException($"Mobile number '{dto.MobileNumber}' already exists.");
+            throw new BusinessRuleException($"Phone number '{dto.PhoneNumber}' already exists.");
         }
 
         var customer = _mapper.Map<Customer>(dto);
@@ -61,9 +61,9 @@ public class CustomerService : ICustomerService
         var customer = await _unitOfWork.Customers.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException($"Customer with id {id} was not found.");
 
-        if (!await _unitOfWork.Customers.IsMobileNumberUniqueAsync(dto.MobileNumber, id, cancellationToken))
+        if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, id, cancellationToken))
         {
-            throw new BusinessRuleException($"Mobile number '{dto.MobileNumber}' already exists.");
+            throw new BusinessRuleException($"Phone number '{dto.PhoneNumber}' already exists.");
         }
 
         _mapper.Map(dto, customer);

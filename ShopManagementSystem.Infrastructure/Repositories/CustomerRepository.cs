@@ -11,15 +11,15 @@ public class CustomerRepository : Repository<Customer>, ICustomerRepository
     {
     }
 
-    public async Task<Customer?> GetByMobileNumberAsync(string mobileNumber, CancellationToken cancellationToken = default)
+    public async Task<Customer?> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
     {
-        return await DbSet.FirstOrDefaultAsync(c => c.MobileNumber == mobileNumber, cancellationToken);
+        return await DbSet.FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber, cancellationToken);
     }
 
-    public async Task<bool> IsMobileNumberUniqueAsync(string mobileNumber, int? excludeId = null, CancellationToken cancellationToken = default)
+    public async Task<bool> IsPhoneNumberUniqueAsync(string phoneNumber, int? excludeId = null, CancellationToken cancellationToken = default)
     {
         return !await DbSet.AnyAsync(
-            c => c.MobileNumber == mobileNumber && (!excludeId.HasValue || c.Id != excludeId.Value),
+            c => c.PhoneNumber == phoneNumber && (!excludeId.HasValue || c.Id != excludeId.Value),
             cancellationToken);
     }
 }

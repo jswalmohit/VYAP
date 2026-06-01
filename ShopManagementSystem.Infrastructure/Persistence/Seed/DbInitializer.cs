@@ -51,14 +51,14 @@ public static class DbInitializer
             new()
             {
                 CustomerName = "Rahul Sharma",
-                MobileNumber = "9876543210",
+                PhoneNumber = "9876543210",
                 Address = "123 MG Road, Bangalore",
                 CreatedDate = DateTime.UtcNow
             },
             new()
             {
                 CustomerName = "Priya Patel",
-                MobileNumber = "9123456780",
+                PhoneNumber = "9123456780",
                 Address = "45 Park Street, Mumbai",
                 CreatedDate = DateTime.UtcNow
             }

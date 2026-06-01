@@ -33,12 +33,12 @@ public class CustomersController : ControllerBase
         return Ok(ApiResponse<CustomerDto>.Ok(customer));
     }
 
-    [HttpGet("mobile/{mobileNumber}")]
+    [HttpGet("phone/{phoneNumber}")]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiResponse<CustomerDto>>> GetByMobileNumber(string mobileNumber, CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<CustomerDto>>> GetByPhoneNumber(string phoneNumber, CancellationToken cancellationToken)
     {
-        var customer = await _customerService.GetByMobileNumberAsync(mobileNumber, cancellationToken);
+        var customer = await _customerService.GetByPhoneNumberAsync(phoneNumber, cancellationToken);
         return Ok(ApiResponse<CustomerDto>.Ok(customer));
     }
 

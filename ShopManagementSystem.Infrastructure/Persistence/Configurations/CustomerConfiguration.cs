@@ -16,15 +16,15 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(c => c.MobileNumber)
+        builder.Property(c => c.PhoneNumber)
             .IsRequired()
             .HasMaxLength(15);
 
-        builder.HasIndex(c => c.MobileNumber)
+        builder.HasIndex(c => c.PhoneNumber)
             .IsUnique();
 
         builder.Property(c => c.Address)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(500);
 
         builder.Property(c => c.CreatedDate)
