@@ -29,6 +29,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Gst)
             .HasPrecision(5, 2);
 
+        builder.Property(p => p.PurchaseDate)
+            .IsRequired();
+
         builder.Property(p => p.CreatedDate)
             .IsRequired();
     }

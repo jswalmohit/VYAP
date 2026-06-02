@@ -23,6 +23,9 @@ public class CreateProductDtoValidator : AbstractValidator<CreateProductDto>
 
         RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0).WithMessage("Quantity must be greater than or equal to 0.");
+
+        RuleFor(x => x.PurchaseDate)
+            .NotEmpty().WithMessage("PurchaseDate is required.");
     }
 }
 
@@ -46,5 +49,8 @@ public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
 
         RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0).WithMessage("Quantity must be greater than or equal to 0.");
+
+        RuleFor(x => x.PurchaseDate)
+            .NotEmpty().WithMessage("PurchaseDate is required.");
     }
 }

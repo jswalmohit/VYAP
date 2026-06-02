@@ -24,6 +24,7 @@ public static class DbInitializer
                 CostPrice = 450.00m,
                 Gst = 18.00m,
                 Quantity = 50,
+                PurchaseDate = DateTime.UtcNow,
                 CreatedDate = DateTime.UtcNow
             },
             new()
@@ -33,6 +34,7 @@ public static class DbInitializer
                 CostPrice = 2500.00m,
                 Gst = 18.00m,
                 Quantity = 30,
+                PurchaseDate = DateTime.UtcNow,
                 CreatedDate = DateTime.UtcNow
             },
             new()
@@ -42,6 +44,7 @@ public static class DbInitializer
                 CostPrice = 199.00m,
                 Gst = 12.00m,
                 Quantity = 100,
+                PurchaseDate = DateTime.UtcNow,
                 CreatedDate = DateTime.UtcNow
             }
         };

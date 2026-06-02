@@ -8,6 +8,7 @@ public class ProductDto
     public decimal CostPrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
+    public DateTime PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
 }
 
@@ -18,6 +19,7 @@ public class CreateProductDto
     public decimal CostPrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
+    public DateTime PurchaseDate { get; set; }
 }
 
 public class UpdateProductDto
@@ -27,4 +29,5 @@ public class UpdateProductDto
     public decimal CostPrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
+    public DateTime PurchaseDate { get; set; }
 }

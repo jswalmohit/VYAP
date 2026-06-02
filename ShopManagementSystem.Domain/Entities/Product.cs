@@ -8,6 +8,7 @@ public class Product
     public decimal CostPrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
+    public DateTime PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
 
     public ICollection<BillItem> BillItems { get; set; } = new List<BillItem>();
