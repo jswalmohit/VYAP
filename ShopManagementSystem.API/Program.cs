@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Logging;
 using ShopManagementSystem.API.Filters;
 using ShopManagementSystem.API.Middleware;
+using ShopManagementSystem.API.Models;
+using Microsoft.Extensions.Options;
 using ShopManagementSystem.Application;
 using ShopManagementSystem.Infrastructure;
 using ShopManagementSystem.Infrastructure.Persistence;
@@ -28,6 +30,11 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();
 });
+
+// Configure JwtSettings from configuration
+var jwtSection = builder.Configuration.GetSection("JwtSettings");
+var jwtSettings = jwtSection.Get<JwtSettings>() ?? new JwtSettings();
+builder.Services.AddSingleton(jwtSettings);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -93,6 +100,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseCors("AngularClient");
+app.UseMiddleware<JwtMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 
