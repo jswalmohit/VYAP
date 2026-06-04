@@ -15,14 +15,16 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                 table: "Products",
                 type: "nvarchar(15)",
                 maxLength: 15,
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "SellerName",
                 table: "Products",
                 type: "nvarchar(200)",
                 maxLength: 200,
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />

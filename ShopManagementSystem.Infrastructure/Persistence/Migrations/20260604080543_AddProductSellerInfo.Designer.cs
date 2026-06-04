@@ -173,10 +173,12 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SellerGSTIN")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("SellerName")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
