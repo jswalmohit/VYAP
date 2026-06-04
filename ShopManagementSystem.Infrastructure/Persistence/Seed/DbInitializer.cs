@@ -21,6 +21,8 @@ public static class DbInitializer
             {
                 ProductId = "PRD-001",
                 ProductName = "Wireless Mouse",
+                SellerGSTIN = "29ABCDE1234F2Z5",
+                SellerName = "Tech Supplies Pvt Ltd",
                 CostPrice = 450.00m,
                 Gst = 18.00m,
                 Quantity = 50,
@@ -31,6 +33,8 @@ public static class DbInitializer
             {
                 ProductId = "PRD-002",
                 ProductName = "Mechanical Keyboard",
+                SellerGSTIN = "27ABCDE1234F2Z5",
+                SellerName = "Keyboard World Ltd",
                 CostPrice = 2500.00m,
                 Gst = 18.00m,
                 Quantity = 30,
@@ -41,6 +45,8 @@ public static class DbInitializer
             {
                 ProductId = "PRD-003",
                 ProductName = "USB-C Cable",
+                SellerGSTIN = "29ABCDE1234F2Z5",
+                SellerName = "Cables & Co",
                 CostPrice = 199.00m,
                 Gst = 12.00m,
                 Quantity = 100,

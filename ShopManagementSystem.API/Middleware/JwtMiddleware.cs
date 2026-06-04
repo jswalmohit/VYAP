@@ -22,7 +22,8 @@ public class JwtMiddleware
         // Allow unauthenticated access to login and swagger endpoints
         if (path.StartsWith("/api/auth", StringComparison.OrdinalIgnoreCase) ||
             path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase) ||
-            path.StartsWith("/health", StringComparison.OrdinalIgnoreCase))
+            path.StartsWith("/api/statuscheck", StringComparison.OrdinalIgnoreCase) ||
+            path.StartsWith("/api/healthcheck", StringComparison.OrdinalIgnoreCase))
         {
             await _next(context);
             return;
