@@ -13,7 +13,8 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
         builder.HasKey(l => l.Id);
 
         builder.Property(l => l.ProductId)
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(50);
 
         builder.Property(l => l.PurchasePrice)
             .HasPrecision(18, 2)
@@ -41,6 +42,7 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
         builder.HasOne(l => l.Product)
             .WithMany(p => p.LineItems)
             .HasForeignKey(l => l.ProductId)
+            .HasPrincipalKey(p => p.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

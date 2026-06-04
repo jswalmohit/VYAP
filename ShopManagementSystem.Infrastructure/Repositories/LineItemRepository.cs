@@ -11,7 +11,7 @@ public class LineItemRepository : Repository<LineItem>, ILineItemRepository
     {
     }
 
-    public async Task<IReadOnlyList<LineItem>> GetByProductIdAsync(int productId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<LineItem>> GetByProductIdAsync(string productId, CancellationToken cancellationToken = default)
     {
         return await DbSet
             .AsNoTracking()

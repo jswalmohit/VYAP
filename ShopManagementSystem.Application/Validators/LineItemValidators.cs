@@ -8,7 +8,7 @@ public class CreateLineItemDtoValidator : AbstractValidator<CreateLineItemDto>
     public CreateLineItemDtoValidator()
     {
         RuleFor(x => x.ProductId)
-            .GreaterThan(0).WithMessage("ProductId must be a valid product ID.");
+            .NotEmpty().WithMessage("ProductId is required.");
 
         RuleFor(x => x.Quantity)
             .GreaterThan(0).WithMessage("Quantity must be greater than zero.");
@@ -38,7 +38,7 @@ public class UpdateLineItemDtoValidator : AbstractValidator<UpdateLineItemDto>
     public UpdateLineItemDtoValidator()
     {
         RuleFor(x => x.ProductId)
-            .GreaterThan(0).WithMessage("ProductId must be a valid product ID.");
+            .NotEmpty().WithMessage("ProductId is required.");
 
         RuleFor(x => x.Quantity)
             .GreaterThan(0).WithMessage("Quantity must be greater than zero.");

@@ -16,8 +16,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.HasIndex(p => p.ProductId)
-            .IsUnique();
+        builder.HasAlternateKey(p => p.ProductId);
 
         builder.Property(p => p.ProductName)
             .IsRequired()

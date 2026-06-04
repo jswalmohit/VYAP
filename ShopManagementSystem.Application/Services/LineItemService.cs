@@ -37,10 +37,10 @@ public class LineItemService : ILineItemService
         return _mapper.Map<LineItemDto>(lineItem);
     }
 
-    public async Task<IReadOnlyList<LineItemDto>> GetByProductIdAsync(int productId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<LineItemDto>> GetByProductIdAsync(string productId, CancellationToken cancellationToken = default)
     {
         // Verify product exists
-        var product = await _unitOfWork.Products.GetByIdAsync(productId, cancellationToken);
+        var product = await _unitOfWork.Products.GetByProductIdAsync(productId, cancellationToken);
         if (product == null)
         {
             throw new NotFoundException($"Product with id {productId} was not found.");
@@ -53,7 +53,7 @@ public class LineItemService : ILineItemService
     public async Task<LineItemDto> CreateAsync(CreateLineItemDto dto, CancellationToken cancellationToken = default)
     {
         // Verify product exists
-        var product = await _unitOfWork.Products.GetByIdAsync(dto.ProductId, cancellationToken);
+        var product = await _unitOfWork.Products.GetByProductIdAsync(dto.ProductId, cancellationToken);
         if (product == null)
         {
             throw new NotFoundException($"Product with id {dto.ProductId} was not found.");
@@ -91,7 +91,7 @@ public class LineItemService : ILineItemService
         // Verify product exists if ProductId is being changed
         if (existingItem.ProductId != dto.ProductId)
         {
-            var product = await _unitOfWork.Products.GetByIdAsync(dto.ProductId, cancellationToken);
+            var product = await _unitOfWork.Products.GetByProductIdAsync(dto.ProductId, cancellationToken);
             if (product == null)
             {
                 throw new NotFoundException($"Product with id {dto.ProductId} was not found.");

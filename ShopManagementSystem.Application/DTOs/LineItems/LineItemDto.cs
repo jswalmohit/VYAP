@@ -3,7 +3,7 @@ namespace ShopManagementSystem.Application.DTOs.LineItems;
 public class LineItemDto
 {
     public Guid Id { get; set; }
-    public int ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
@@ -15,7 +15,7 @@ public class LineItemDto
 
 public class CreateLineItemDto
 {
-    public int ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
@@ -26,7 +26,7 @@ public class CreateLineItemDto
 
 public class UpdateLineItemDto
 {
-    public int ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }

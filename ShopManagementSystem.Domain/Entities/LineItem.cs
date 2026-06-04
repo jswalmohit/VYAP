@@ -3,7 +3,7 @@ namespace ShopManagementSystem.Domain.Entities;
 public class LineItem
 {
     public Guid Id { get; set; }
-    public int ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
