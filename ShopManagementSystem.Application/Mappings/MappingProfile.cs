@@ -1,6 +1,7 @@
 using AutoMapper;
 using ShopManagementSystem.Application.DTOs.Bills;
 using ShopManagementSystem.Application.DTOs.Customers;
+using ShopManagementSystem.Application.DTOs.LineItems;
 using ShopManagementSystem.Application.DTOs.Products;
 using ShopManagementSystem.Domain.Entities;
 
@@ -17,6 +18,10 @@ public class MappingProfile : Profile
         CreateMap<Customer, CustomerDto>();
         CreateMap<CreateCustomerDto, Customer>();
         CreateMap<UpdateCustomerDto, Customer>();
+
+        CreateMap<LineItem, LineItemDto>();
+        CreateMap<CreateLineItemDto, LineItem>();
+        CreateMap<UpdateLineItemDto, LineItem>();
 
         CreateMap<BillItem, BillItemDto>()
             .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName));

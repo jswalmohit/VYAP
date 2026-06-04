@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Bill> Bills => Set<Bill>();
     public DbSet<BillItem> BillItems => Set<BillItem>();
+    public DbSet<LineItem> LineItems => Set<LineItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

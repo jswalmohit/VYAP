@@ -30,7 +30,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasPrecision(5, 2);
 
         builder.Property(p => p.PurchaseDate)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(p => p.CreatedDate)
             .IsRequired();
