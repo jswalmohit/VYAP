@@ -64,6 +64,7 @@ public class LineItemService : ILineItemService
             Id = Guid.NewGuid(),
             ProductId = dto.ProductId,
             PurchasePrice = dto.PurchasePrice,
+            Gst = dto.Gst,
             Quantity = dto.Quantity,
             PurchaseDate = dto.PurchaseDate,
             CreatedDate = DateTime.UtcNow,

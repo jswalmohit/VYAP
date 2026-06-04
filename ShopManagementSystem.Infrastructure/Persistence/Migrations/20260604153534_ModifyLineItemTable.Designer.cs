@@ -156,6 +156,10 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("Gst")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 

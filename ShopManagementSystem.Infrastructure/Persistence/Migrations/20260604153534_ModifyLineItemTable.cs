@@ -34,6 +34,15 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                 nullable: false,
                 defaultValue: 0m);
 
+            migrationBuilder.AddColumn<decimal>(
+                name: "Gst",
+                table: "LineItems",
+                type: "decimal(5,2)",
+                precision: 5,
+                scale: 2,
+                nullable: false,
+                defaultValue: 0m);
+
             migrationBuilder.AddColumn<int>(
                 name: "Quantity",
                 table: "LineItems",
@@ -55,6 +64,10 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropColumn(
                 name: "PurchasePrice",
+                table: "LineItems");
+
+            migrationBuilder.DropColumn(
+                name: "Gst",
                 table: "LineItems");
 
             migrationBuilder.DropColumn(

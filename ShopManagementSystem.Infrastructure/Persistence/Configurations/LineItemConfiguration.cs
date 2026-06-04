@@ -19,6 +19,10 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
             .HasPrecision(18, 2)
             .IsRequired();
 
+        builder.Property(l => l.Gst)
+            .HasPrecision(5, 2)
+            .IsRequired();
+
         builder.Property(l => l.Quantity)
             .IsRequired();
 

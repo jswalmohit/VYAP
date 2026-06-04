@@ -5,6 +5,7 @@ public class LineItem
     public Guid Id { get; set; }
     public int ProductId { get; set; }
     public decimal PurchasePrice { get; set; }
+    public decimal Gst { get; set; }
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
