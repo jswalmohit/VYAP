@@ -24,11 +24,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasMaxLength(200);
 
         builder.Property(p => p.SellerGSTIN)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(15);
 
         builder.Property(p => p.SellerName)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(200);
 
         builder.Property(p => p.CostPrice)
