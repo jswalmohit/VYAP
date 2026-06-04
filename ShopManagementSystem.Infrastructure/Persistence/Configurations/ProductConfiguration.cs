@@ -23,14 +23,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(p => p.SellerGSTIN)
-            .IsRequired()
-            .HasMaxLength(15);
-
-        builder.Property(p => p.SellerName)
-            .IsRequired()
-            .HasMaxLength(200);
-
         builder.Property(p => p.CostPrice)
             .HasPrecision(18, 2);
 

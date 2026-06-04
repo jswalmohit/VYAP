@@ -5,8 +5,6 @@ public class Product
     public int Id { get; set; }
     public string ProductId { get; set; } = string.Empty;
     public string ProductName { get; set; } = string.Empty;
-    public string SellerGSTIN { get; set; } = string.Empty;
-    public string SellerName { get; set; } = string.Empty;
     public decimal CostPrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }

@@ -15,14 +15,6 @@ public class CreateProductDtoValidator : AbstractValidator<CreateProductDto>
             .NotEmpty().WithMessage("ProductName is required.")
             .MaximumLength(200).WithMessage("ProductName must not exceed 200 characters.");
 
-        RuleFor(x => x.SellerGSTIN)
-            .NotEmpty().WithMessage("SellerGSTIN is required.")
-            .Length(15).WithMessage("SellerGSTIN must be 15 characters.");
-
-        RuleFor(x => x.SellerName)
-            .NotEmpty().WithMessage("SellerName is required.")
-            .MaximumLength(200).WithMessage("SellerName must not exceed 200 characters.");
-
         RuleFor(x => x.CostPrice)
             .GreaterThanOrEqualTo(0).WithMessage("CostPrice must be greater than or equal to 0.");
 
@@ -48,14 +40,6 @@ public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
         RuleFor(x => x.ProductName)
             .NotEmpty().WithMessage("ProductName is required.")
             .MaximumLength(200).WithMessage("ProductName must not exceed 200 characters.");
-
-        RuleFor(x => x.SellerGSTIN)
-            .NotEmpty().WithMessage("SellerGSTIN is required.")
-            .Length(15).WithMessage("SellerGSTIN must be 15 characters.");
-
-        RuleFor(x => x.SellerName)
-            .NotEmpty().WithMessage("SellerName is required.")
-            .MaximumLength(200).WithMessage("SellerName must not exceed 200 characters.");
 
         RuleFor(x => x.CostPrice)
             .GreaterThanOrEqualTo(0).WithMessage("CostPrice must be greater than or equal to 0.");
