@@ -16,8 +16,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.HasIndex(p => p.ProductId)
-            .IsUnique();
+        builder.HasAlternateKey(p => p.ProductId);
 
         builder.Property(p => p.ProductName)
             .IsRequired()
@@ -30,7 +29,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasPrecision(5, 2);
 
         builder.Property(p => p.PurchaseDate)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(p => p.CreatedDate)
             .IsRequired();
