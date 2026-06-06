@@ -9,11 +9,13 @@ public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly JwtSettings _settings;
+    private readonly ILogger<JwtMiddleware> _logger;
 
-    public JwtMiddleware(RequestDelegate next, JwtSettings settings)
+    public JwtMiddleware(RequestDelegate next, JwtSettings settings, ILogger<JwtMiddleware> logger)
     {
         _next = next;
         _settings = settings;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -61,19 +63,22 @@ public class JwtMiddleware
 
             var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
             context.User = principal;
-            await _next(context);
         }
-        catch (SecurityTokenExpiredException)
+        catch (SecurityTokenExpiredException ex)
         {
+            _logger.LogWarning($"Token expired: {ex.Message}");
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await context.Response.WriteAsJsonAsync(new { Message = "Token expired." });
             return;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogError($"Token validation failed: {ex.Message}\n{ex.StackTrace}");
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsJsonAsync(new { Message = "Invalid token." });
+            await context.Response.WriteAsJsonAsync(new { Message = $"Invalid token. Error: {ex.Message}" });
             return;
         }
+
+        await _next(context);
     }
 }

@@ -62,6 +62,36 @@ public class LineItemsController : ControllerBase
         return Ok(ApiResponse<LineItemDto>.Ok(lineItem, "LineItem updated successfully."));
     }
 
+    [HttpPost("bulk")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<LineItemDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> CreateBulk([FromBody] IEnumerable<CreateLineItemDto> dtos, CancellationToken cancellationToken)
+    {
+        var lineItems = await _lineItemService.CreateBulkAsync(dtos, cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(lineItems, "Line items created successfully."));
+    }
+
+    [HttpPut("bulk")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<LineItemDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> UpdateBulk([FromBody] IEnumerable<UpdateLineItemBulkDto> dtos, CancellationToken cancellationToken)
+    {
+        var lineItems = await _lineItemService.UpdateBulkAsync(dtos, cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(lineItems, "Line items updated successfully."));
+    }
+
+    [HttpDelete("bulk")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<Guid>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<Guid>>>> DeleteBulk([FromBody] IEnumerable<Guid> ids, CancellationToken cancellationToken)
+    {
+        var deletedIds = await _lineItemService.DeleteBulkAsync(ids, cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<Guid>>.Ok(deletedIds, "Line items deleted successfully."));
+    }
+
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]

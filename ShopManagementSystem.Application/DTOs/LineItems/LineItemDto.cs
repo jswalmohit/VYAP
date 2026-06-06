@@ -34,3 +34,8 @@ public class UpdateLineItemDto
     public string? SellerGSTIN { get; set; }
     public string? SellerName { get; set; }
 }
+
+public class UpdateLineItemBulkDto : UpdateLineItemDto
+{
+    public Guid Id { get; set; }
+}
