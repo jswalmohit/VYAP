@@ -27,6 +27,14 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
         builder.Property(l => l.Quantity)
             .IsRequired();
 
+        builder.Property(l => l.SellerGSTIN)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.Property(l => l.SellerName)
+            .IsRequired()
+            .HasMaxLength(200);
+
         builder.Property(l => l.PurchaseDate)
             .IsRequired();
 

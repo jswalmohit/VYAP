@@ -19,6 +19,12 @@ public class CreateLineItemDtoValidator : AbstractValidator<CreateLineItemDto>
         RuleFor(x => x.Gst)
             .GreaterThanOrEqualTo(0).LessThanOrEqualTo(100).WithMessage("Gst must be between 0 and 100.");
 
+        RuleFor(x => x.SellerGSTIN)
+            .NotEmpty().WithMessage("SellerGSTIN is required.");
+
+        RuleFor(x => x.SellerName)
+            .NotEmpty().WithMessage("SellerName is required.");
+
         RuleFor(x => x.PurchaseDate)
             .NotEmpty().WithMessage("PurchaseDate is required.");
     }
@@ -39,6 +45,12 @@ public class UpdateLineItemDtoValidator : AbstractValidator<UpdateLineItemDto>
 
         RuleFor(x => x.Gst)
             .GreaterThanOrEqualTo(0).LessThanOrEqualTo(100).WithMessage("Gst must be between 0 and 100.");
+
+        RuleFor(x => x.SellerGSTIN)
+            .NotEmpty().WithMessage("SellerGSTIN is required.");
+
+        RuleFor(x => x.SellerName)
+            .NotEmpty().WithMessage("SellerName is required.");
 
         RuleFor(x => x.PurchaseDate)
             .NotEmpty().WithMessage("PurchaseDate is required.");
