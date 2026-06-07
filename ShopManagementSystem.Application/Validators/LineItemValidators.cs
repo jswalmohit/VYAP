@@ -21,15 +21,6 @@ public class CreateLineItemDtoValidator : AbstractValidator<CreateLineItemDto>
 
         RuleFor(x => x.PurchaseDate)
             .NotEmpty().WithMessage("PurchaseDate is required.");
-
-        RuleFor(x => x.SellerGSTIN)
-            .MaximumLength(50).WithMessage("SellerGSTIN must not exceed 50 characters.")
-            .Matches(@"^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[0-9A-Z]{1}$")
-            .When(x => !string.IsNullOrEmpty(x.SellerGSTIN))
-            .WithMessage("SellerGSTIN must be a valid GST number.");
-
-        RuleFor(x => x.SellerName)
-            .MaximumLength(200).WithMessage("SellerName must not exceed 200 characters.");
     }
 }
 
@@ -51,14 +42,5 @@ public class UpdateLineItemDtoValidator : AbstractValidator<UpdateLineItemDto>
 
         RuleFor(x => x.PurchaseDate)
             .NotEmpty().WithMessage("PurchaseDate is required.");
-
-        RuleFor(x => x.SellerGSTIN)
-            .MaximumLength(50).WithMessage("SellerGSTIN must not exceed 50 characters.")
-            .Matches(@"^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[0-9A-Z]{1}$")
-            .When(x => !string.IsNullOrEmpty(x.SellerGSTIN))
-            .WithMessage("SellerGSTIN must be a valid GST number.");
-
-        RuleFor(x => x.SellerName)
-            .MaximumLength(200).WithMessage("SellerName must not exceed 200 characters.");
     }
 }

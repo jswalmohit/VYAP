@@ -18,6 +18,22 @@ public class LineItemService : ILineItemService
         _mapper = mapper;
     }
 
+    private static int CalculateQuantityDelta(int originalQuantity, int newQuantity)
+    {
+        return newQuantity - originalQuantity;
+    }
+
+    private async Task<Product> GetProductAsync(string productId, CancellationToken cancellationToken)
+    {
+        var product = await _unitOfWork.Products.GetByProductIdAsync(productId, cancellationToken);
+        if (product == null)
+        {
+            throw new NotFoundException($"Product with id {productId} was not found.");
+        }
+
+        return product;
+    }
+
     public async Task<IReadOnlyList<LineItemDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var lineItems = await _unitOfWork.LineItems.GetAllAsync(cancellationToken);
@@ -52,13 +68,6 @@ public class LineItemService : ILineItemService
 
     public async Task<LineItemDto> CreateAsync(CreateLineItemDto dto, CancellationToken cancellationToken = default)
     {
-        // Verify product exists
-        var product = await _unitOfWork.Products.GetByProductIdAsync(dto.ProductId, cancellationToken);
-        if (product == null)
-        {
-            throw new NotFoundException($"Product with id {dto.ProductId} was not found.");
-        }
-
         var lineItem = new LineItem
         {
             Id = Guid.NewGuid(),
@@ -67,10 +76,11 @@ public class LineItemService : ILineItemService
             Gst = dto.Gst,
             Quantity = dto.Quantity,
             PurchaseDate = dto.PurchaseDate,
-            CreatedDate = DateTime.UtcNow,
-            SellerGSTIN = dto.SellerGSTIN,
-            SellerName = dto.SellerName
+            CreatedDate = DateTime.UtcNow
         };
+
+        var product = await GetProductAsync(dto.ProductId, cancellationToken);
+        product.Quantity += dto.Quantity;
 
         await _unitOfWork.LineItems.AddAsync(lineItem, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -89,12 +99,6 @@ public class LineItemService : ILineItemService
         var createdItems = new List<LineItem>();
         foreach (var dto in bulkDtos)
         {
-            var product = await _unitOfWork.Products.GetByProductIdAsync(dto.ProductId, cancellationToken);
-            if (product == null)
-            {
-                throw new NotFoundException($"Product with id {dto.ProductId} was not found.");
-            }
-
             var lineItem = new LineItem
             {
                 Id = Guid.NewGuid(),
@@ -103,10 +107,11 @@ public class LineItemService : ILineItemService
                 Gst = dto.Gst,
                 Quantity = dto.Quantity,
                 PurchaseDate = dto.PurchaseDate,
-                CreatedDate = DateTime.UtcNow,
-                SellerGSTIN = dto.SellerGSTIN,
-                SellerName = dto.SellerName
+                CreatedDate = DateTime.UtcNow
             };
+
+            var product = await GetProductAsync(dto.ProductId, cancellationToken);
+            product.Quantity += dto.Quantity;
 
             createdItems.Add(lineItem);
             await _unitOfWork.LineItems.AddAsync(lineItem, cancellationToken);
@@ -126,14 +131,18 @@ public class LineItemService : ILineItemService
             throw new NotFoundException($"LineItem with id {id} was not found.");
         }
 
-        // Verify product exists if ProductId is being changed
         if (existingItem.ProductId != dto.ProductId)
         {
-            var product = await _unitOfWork.Products.GetByProductIdAsync(dto.ProductId, cancellationToken);
-            if (product == null)
-            {
-                throw new NotFoundException($"Product with id {dto.ProductId} was not found.");
-            }
+            var originalProduct = await GetProductAsync(existingItem.ProductId, cancellationToken);
+            var newProduct = await GetProductAsync(dto.ProductId, cancellationToken);
+
+            originalProduct.Quantity -= existingItem.Quantity;
+            newProduct.Quantity += dto.Quantity;
+        }
+        else
+        {
+            var product = await GetProductAsync(dto.ProductId, cancellationToken);
+            product.Quantity += CalculateQuantityDelta(existingItem.Quantity, dto.Quantity);
         }
 
         _mapper.Map(dto, existingItem);
@@ -164,11 +173,16 @@ public class LineItemService : ILineItemService
 
             if (existingItem.ProductId != dto.ProductId)
             {
-                var product = await _unitOfWork.Products.GetByProductIdAsync(dto.ProductId, cancellationToken);
-                if (product == null)
-                {
-                    throw new NotFoundException($"Product with id {dto.ProductId} was not found.");
-                }
+                var oldProduct = await GetProductAsync(existingItem.ProductId, cancellationToken);
+                var newProduct = await GetProductAsync(dto.ProductId, cancellationToken);
+
+                oldProduct.Quantity -= existingItem.Quantity;
+                newProduct.Quantity += dto.Quantity;
+            }
+            else
+            {
+                var product = await GetProductAsync(dto.ProductId, cancellationToken);
+                product.Quantity += CalculateQuantityDelta(existingItem.Quantity, dto.Quantity);
             }
 
             _mapper.Map(dto, existingItem);
@@ -197,6 +211,8 @@ public class LineItemService : ILineItemService
                 throw new NotFoundException($"LineItem with id {id} was not found.");
             }
 
+            var product = await GetProductAsync(existingItem.ProductId, cancellationToken);
+            product.Quantity -= existingItem.Quantity;
             await _unitOfWork.LineItems.DeleteAsync(existingItem, cancellationToken);
         }
 
@@ -213,6 +229,9 @@ public class LineItemService : ILineItemService
         {
             throw new NotFoundException($"LineItem with id {id} was not found.");
         }
+
+        var product = await GetProductAsync(existingItem.ProductId, cancellationToken);
+        product.Quantity -= existingItem.Quantity;
 
         await _unitOfWork.LineItems.DeleteAsync(existingItem, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

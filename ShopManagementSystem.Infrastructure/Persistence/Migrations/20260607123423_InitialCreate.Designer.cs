@@ -12,8 +12,8 @@ using ShopManagementSystem.Infrastructure.Persistence;
 namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260602043813_AddProductPurchaseDate")]
-    partial class AddProductPurchaseDate
+    [Migration("20260607123423_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,41 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
+            modelBuilder.Entity("ShopManagementSystem.Domain.Entities.LineItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Gst")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("PurchasePrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("LineItems", (string)null);
+                });
+
             modelBuilder.Entity("ShopManagementSystem.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -166,16 +201,13 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("PurchaseDate")
+                    b.Property<DateTime?>("PurchaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
 
                     b.ToTable("Products", (string)null);
                 });
@@ -210,6 +242,18 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ShopManagementSystem.Domain.Entities.LineItem", b =>
+                {
+                    b.HasOne("ShopManagementSystem.Domain.Entities.Product", "Product")
+                        .WithMany("LineItems")
+                        .HasForeignKey("ProductId")
+                        .HasPrincipalKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ShopManagementSystem.Domain.Entities.Bill", b =>
                 {
                     b.Navigation("BillItems");
@@ -223,6 +267,8 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ShopManagementSystem.Domain.Entities.Product", b =>
                 {
                     b.Navigation("BillItems");
+
+                    b.Navigation("LineItems");
                 });
 #pragma warning restore 612, 618
         }

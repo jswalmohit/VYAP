@@ -33,12 +33,6 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
         builder.Property(l => l.CreatedDate)
             .IsRequired();
 
-        builder.Property(l => l.SellerGSTIN)
-            .HasMaxLength(50);
-
-        builder.Property(l => l.SellerName)
-            .HasMaxLength(200);
-
         builder.HasOne(l => l.Product)
             .WithMany(p => p.LineItems)
             .HasForeignKey(l => l.ProductId)
