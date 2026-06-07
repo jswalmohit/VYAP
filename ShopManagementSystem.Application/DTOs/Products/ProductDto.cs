@@ -6,6 +6,7 @@ public class ProductDto
     public string ProductId { get; set; } = string.Empty;
     public string ProductName { get; set; } = string.Empty;
     public decimal CostPrice { get; set; }
+    public decimal SalePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
@@ -17,6 +18,7 @@ public class CreateProductDto
     public string ProductId { get; set; } = string.Empty;
     public string ProductName { get; set; } = string.Empty;
     public decimal CostPrice { get; set; }
+    public decimal SalePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
@@ -27,6 +29,7 @@ public class UpdateProductDto
     public string ProductId { get; set; } = string.Empty;
     public string ProductName { get; set; } = string.Empty;
     public decimal CostPrice { get; set; }
+    public decimal SalePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }

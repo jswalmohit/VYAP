@@ -18,6 +18,9 @@ public class CreateProductDtoValidator : AbstractValidator<CreateProductDto>
         RuleFor(x => x.CostPrice)
             .GreaterThanOrEqualTo(0).WithMessage("CostPrice must be greater than or equal to 0.");
 
+        RuleFor(x => x.SalePrice)
+            .GreaterThanOrEqualTo(0).WithMessage("SalePrice must be greater than or equal to 0.");
+
         RuleFor(x => x.Gst)
             .InclusiveBetween(0, 100).WithMessage("Gst must be between 0 and 100.");
 
@@ -43,6 +46,9 @@ public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
 
         RuleFor(x => x.CostPrice)
             .GreaterThanOrEqualTo(0).WithMessage("CostPrice must be greater than or equal to 0.");
+
+        RuleFor(x => x.SalePrice)
+            .GreaterThanOrEqualTo(0).WithMessage("SalePrice must be greater than or equal to 0.");
 
         RuleFor(x => x.Gst)
             .InclusiveBetween(0, 100).WithMessage("Gst must be between 0 and 100.");

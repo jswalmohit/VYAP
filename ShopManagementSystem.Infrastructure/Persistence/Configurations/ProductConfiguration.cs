@@ -25,6 +25,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.CostPrice)
             .HasPrecision(18, 2);
 
+        builder.Property(p => p.SalePrice)
+            .HasPrecision(18, 2)
+            .IsRequired()
+            .HasDefaultValue(0m);
+
         builder.Property(p => p.Gst)
             .HasPrecision(5, 2);
 
