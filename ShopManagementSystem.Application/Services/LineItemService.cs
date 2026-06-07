@@ -75,6 +75,8 @@ public class LineItemService : ILineItemService
             PurchasePrice = dto.PurchasePrice,
             Gst = dto.Gst,
             Quantity = dto.Quantity,
+            SellerGSTIN = dto.SellerGSTIN,
+            SellerName = dto.SellerName,
             PurchaseDate = dto.PurchaseDate,
             CreatedDate = DateTime.UtcNow
         };
@@ -106,6 +108,8 @@ public class LineItemService : ILineItemService
                 PurchasePrice = dto.PurchasePrice,
                 Gst = dto.Gst,
                 Quantity = dto.Quantity,
+                SellerGSTIN = dto.SellerGSTIN,
+                SellerName = dto.SellerName,
                 PurchaseDate = dto.PurchaseDate,
                 CreatedDate = DateTime.UtcNow
             };
