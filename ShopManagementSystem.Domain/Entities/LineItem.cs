@@ -9,8 +9,5 @@ public class LineItem
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? SellerGSTIN { get; set; }
-    public string? SellerName { get; set; }
-
     public Product Product { get; set; } = null!;
 }

@@ -9,8 +9,6 @@ public class LineItemDto
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? SellerGSTIN { get; set; }
-    public string? SellerName { get; set; }
 }
 
 public class CreateLineItemDto
@@ -20,8 +18,6 @@ public class CreateLineItemDto
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
-    public string? SellerGSTIN { get; set; }
-    public string? SellerName { get; set; }
 }
 
 public class UpdateLineItemDto
@@ -31,8 +27,6 @@ public class UpdateLineItemDto
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
     public DateTime PurchaseDate { get; set; }
-    public string? SellerGSTIN { get; set; }
-    public string? SellerName { get; set; }
 }
 
 public class UpdateLineItemBulkDto : UpdateLineItemDto
