@@ -132,8 +132,8 @@ All endpoints return a consistent wrapper:
 | GET | `/api/customers/{id}` | Get customer by ID |
 | GET | `/api/customers/phone/{phoneNumber}` | Get customer by phone |
 | POST | `/api/customers` | Create customer |
-| PUT | `/api/customers/{id}` | Update customer |
-| DELETE | `/api/customers/{id}` | Delete customer |
+| PUT | `/api/customers/{phoneNumber}` | Update customer |
+| DELETE | `/api/customers/{phoneNumber}` | Delete customer |
 
 **Create Customer Request:**
 ```json

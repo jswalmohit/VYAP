@@ -4,6 +4,7 @@ using ShopManagementSystem.Application.Exceptions;
 using ShopManagementSystem.Application.Interfaces;
 using ShopManagementSystem.Domain.Entities;
 using ShopManagementSystem.Domain.Interfaces;
+using System.Data;
 
 namespace ShopManagementSystem.Application.Services;
 
@@ -195,6 +196,119 @@ public class LineItemService : ILineItemService
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return _mapper.Map<IReadOnlyList<LineItemDto>>(existingItems.Values);
+    }
+
+    // public async Task<IReadOnlyList<LineItemDto>> SellProductAsync(SellProductDto dto, CancellationToken cancellationToken = default)
+    // {
+    //     if (dto.Quantity <= 0)
+    //     {
+    //         throw new BusinessRuleException("Insufficient stock");
+    //     }
+
+    //     await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+    //     try
+    //     {
+    //         var product = await GetProductAsync(dto.ProductId, cancellationToken);
+    //         var lineItems = (await _unitOfWork.LineItems.GetByProductIdForUpdateAsync(dto.ProductId, cancellationToken))
+    //             .Where(x => x.Quantity > 0)
+    //             .OrderBy(x => x.CreatedDate)
+    //             .ToList();
+
+    //         var availableQuantity = lineItems.Sum(x => x.Quantity);
+    //         if (availableQuantity < dto.Quantity)
+    //         {
+    //             throw new BusinessRuleException("Insufficient stock");
+    //         }
+
+    //         var remainingQuantity = dto.Quantity;
+    //         foreach (var lineItem in lineItems)
+    //         {
+    //             if (remainingQuantity <= 0)
+    //             {
+    //                 break;
+    //             }
+
+    //             var deduct = Math.Min(lineItem.Quantity, remainingQuantity);
+    //             lineItem.Quantity -= deduct;
+    //             remainingQuantity -= deduct;
+    //             await _unitOfWork.LineItems.UpdateAsync(lineItem, cancellationToken);
+    //         }
+
+    //         product.Quantity -= dto.Quantity;
+    //         await _unitOfWork.SaveChangesAsync(cancellationToken);
+    //         await _unitOfWork.CommitTransactionAsync(cancellationToken);
+
+    //         return _mapper.Map<IReadOnlyList<LineItemDto>>(lineItems);
+    //     }
+    //     catch
+    //     {
+    //         await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+    //         throw;
+    //     }
+    // }
+
+    public async Task<IReadOnlyList<LineItemDto>> SellProductsAsync(IEnumerable<SellProductDto> dtos, CancellationToken cancellationToken = default)
+    {
+        var sellDtos = dtos?.ToList() ?? new List<SellProductDto>();
+        if (!sellDtos.Any())
+        {
+            return Array.Empty<LineItemDto>();
+        }
+
+        await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
+        try
+        {
+            var updatedLineItems = new List<LineItem>();
+            var groupedByProduct = sellDtos.GroupBy(x => x.ProductId);
+
+            foreach (var productGroup in groupedByProduct)
+            {
+                var productId = productGroup.Key;
+                var totalRequestQuantity = productGroup.Sum(x => x.Quantity);
+                if (totalRequestQuantity <= 0)
+                {
+                    throw new BusinessRuleException("Insufficient stock");
+                }
+
+                var product = await GetProductAsync(productId, cancellationToken);
+                var lineItems = (await _unitOfWork.LineItems.GetByProductIdForUpdateAsync(productId, cancellationToken))
+                    .Where(x => x.Quantity > 0)
+                    .OrderBy(x => x.CreatedDate)
+                    .ToList();
+
+                var availableQuantity = lineItems.Sum(x => x.Quantity);
+                if (availableQuantity < totalRequestQuantity)
+                {
+                    throw new BusinessRuleException("Insufficient stock");
+                }
+
+                var remainingQuantity = totalRequestQuantity;
+                foreach (var lineItem in lineItems)
+                {
+                    if (remainingQuantity <= 0)
+                    {
+                        break;
+                    }
+
+                    var deduct = Math.Min(lineItem.Quantity, remainingQuantity);
+                    lineItem.Quantity -= deduct;
+                    remainingQuantity -= deduct;
+                    await _unitOfWork.LineItems.UpdateAsync(lineItem, cancellationToken);
+                    updatedLineItems.Add(lineItem);
+                }
+
+                product.Quantity -= totalRequestQuantity;
+            }
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CommitTransactionAsync(cancellationToken);
+            return _mapper.Map<IReadOnlyList<LineItemDto>>(updatedLineItems);
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+            throw;
+        }
     }
 
     public async Task<IReadOnlyList<Guid>> DeleteBulkAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)

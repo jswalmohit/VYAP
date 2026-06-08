@@ -18,4 +18,11 @@ public class LineItemRepository : Repository<LineItem>, ILineItemRepository
             .Where(li => li.ProductId == productId)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<LineItem>> GetByProductIdForUpdateAsync(string productId, CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Where(li => li.ProductId == productId)
+            .ToListAsync(cancellationToken);
+    }
 }

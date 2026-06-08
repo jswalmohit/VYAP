@@ -51,22 +51,22 @@ public class CustomersController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = customer.Id }, ApiResponse<CustomerDto>.Ok(customer, "Customer created successfully."));
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut()]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiResponse<CustomerDto>>> Update(int id, [FromBody] UpdateCustomerDto dto, CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<CustomerDto>>> Update([FromBody] UpdateCustomerDto dto, CancellationToken cancellationToken)
     {
-        var customer = await _customerService.UpdateAsync(id, dto, cancellationToken);
+        var customer = await _customerService.UpdateAsync(dto, cancellationToken);
         return Ok(ApiResponse<CustomerDto>.Ok(customer, "Customer updated successfully."));
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{phoneNumber}")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiResponse<object>>> Delete(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<object>>> Delete(string phoneNumber, CancellationToken cancellationToken)
     {
-        await _customerService.DeleteAsync(id, cancellationToken);
+        await _customerService.DeleteAsync(phoneNumber, cancellationToken);
         return Ok(ApiResponse<object>.Ok(null!, "Customer deleted successfully."));
     }
 }

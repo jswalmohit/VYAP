@@ -39,3 +39,9 @@ public class UpdateLineItemBulkDto : UpdateLineItemDto
 {
     public Guid Id { get; set; }
 }
+
+public class SellProductDto
+{
+    public string ProductId { get; set; } = string.Empty;
+    public int Quantity { get; set; }
+}
