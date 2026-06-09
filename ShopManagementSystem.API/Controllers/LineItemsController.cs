@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShopManagementSystem.Application.Common;
 using ShopManagementSystem.Application.DTOs.LineItems;
 using ShopManagementSystem.Application.Interfaces;
+using System.Web;
 
 namespace ShopManagementSystem.API.Controllers;
 
@@ -38,6 +39,7 @@ public class LineItemsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> GetByProductId(string productId, CancellationToken cancellationToken)
     {
+        productId = HttpUtility.UrlDecode(productId);
         var lineItems = await _lineItemService.GetByProductIdAsync(productId, cancellationToken);
         return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(lineItems));
     }
