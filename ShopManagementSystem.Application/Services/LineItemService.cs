@@ -78,6 +78,8 @@ public class LineItemService : ILineItemService
             Quantity = dto.Quantity,
             SellerGSTIN = dto.SellerGSTIN,
             SellerName = dto.SellerName,
+            Address = dto.Address,
+            SellerInvoice = dto.SellerInvoice,
             PurchaseDate = dto.PurchaseDate,
             CreatedDate = DateTime.UtcNow
         };
@@ -111,6 +113,8 @@ public class LineItemService : ILineItemService
                 Quantity = dto.Quantity,
                 SellerGSTIN = dto.SellerGSTIN,
                 SellerName = dto.SellerName,
+                Address = dto.Address,
+                SellerInvoice = dto.SellerInvoice,
                 PurchaseDate = dto.PurchaseDate,
                 CreatedDate = DateTime.UtcNow
             };
@@ -150,7 +154,16 @@ public class LineItemService : ILineItemService
             product.Quantity += CalculateQuantityDelta(existingItem.Quantity, dto.Quantity);
         }
 
-        _mapper.Map(dto, existingItem);
+        existingItem.ProductId = dto.ProductId;
+        existingItem.PurchasePrice = dto.PurchasePrice;
+        existingItem.Gst = dto.Gst;
+        existingItem.Quantity = dto.Quantity;
+        existingItem.SellerGSTIN = dto.SellerGSTIN;
+        existingItem.SellerName = dto.SellerName;
+        existingItem.Address = dto.Address;
+        existingItem.SellerInvoice = dto.SellerInvoice;
+        existingItem.PurchaseDate = dto.PurchaseDate;
+
         await _unitOfWork.LineItems.UpdateAsync(existingItem, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -190,7 +203,16 @@ public class LineItemService : ILineItemService
                 product.Quantity += CalculateQuantityDelta(existingItem.Quantity, dto.Quantity);
             }
 
-            _mapper.Map(dto, existingItem);
+            existingItem.ProductId = dto.ProductId;
+            existingItem.PurchasePrice = dto.PurchasePrice;
+            existingItem.Gst = dto.Gst;
+            existingItem.Quantity = dto.Quantity;
+            existingItem.SellerGSTIN = dto.SellerGSTIN;
+            existingItem.SellerName = dto.SellerName;
+            existingItem.Address = dto.Address;
+            existingItem.SellerInvoice = dto.SellerInvoice;
+            existingItem.PurchaseDate = dto.PurchaseDate;
+
             await _unitOfWork.LineItems.UpdateAsync(existingItem, cancellationToken);
         }
 

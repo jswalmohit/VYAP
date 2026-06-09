@@ -55,6 +55,76 @@ public class LineItemServiceConcurrencyTests
         }
     }
 
+    [Fact]
+    public async Task CreateAsync_StoresSellerAndAddressFieldsInDatabase()
+    {
+        var connection = new SqliteConnection("Data Source=:memory:");
+        connection.Open();
+
+        try
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            using (var context = new AppDbContext(options))
+            {
+                await context.Database.EnsureCreatedAsync();
+                context.Products.Add(new Product
+                {
+                    ProductId = "P2",
+                    ProductName = "Test Product 2",
+                    Quantity = 0,
+                    CostPrice = 10m,
+                    SalePrice = 20m,
+                    Gst = 18m,
+                    CreatedDate = DateTime.UtcNow
+                });
+                await context.SaveChangesAsync();
+            }
+
+            var mapper = CreateAutoMapper();
+
+            using (var context = new AppDbContext(options))
+            using (var unitOfWork = new UnitOfWork(context))
+            {
+                var service = new LineItemService(unitOfWork, mapper);
+                var createDto = new CreateLineItemDto
+                {
+                    ProductId = "P2",
+                    PurchasePrice = 12.5m,
+                    Gst = 18m,
+                    Quantity = 1,
+                    SellerGSTIN = "GST123",
+                    SellerName = "Seller One",
+                    Address = "123 Market Street",
+                    SellerInvoice = "INV-1001",
+                    PurchaseDate = DateTime.UtcNow
+                };
+
+                var created = await service.CreateAsync(createDto);
+
+                Assert.Equal("Seller One", created.SellerName);
+                Assert.Equal("123 Market Street", created.Address);
+                Assert.Equal("INV-1001", created.SellerInvoice);
+                Assert.Equal("GST123", created.SellerGSTIN);
+            }
+
+            using (var verifyContext = new AppDbContext(options))
+            {
+                var persisted = await verifyContext.LineItems.FirstAsync(li => li.ProductId == "P2");
+                Assert.Equal("Seller One", persisted.SellerName);
+                Assert.Equal("123 Market Street", persisted.Address);
+                Assert.Equal("INV-1001", persisted.SellerInvoice);
+                Assert.Equal("GST123", persisted.SellerGSTIN);
+            }
+        }
+        finally
+        {
+            connection.Close();
+        }
+    }
+
     private static async Task SeedDatabaseAsync(DbContextOptions<AppDbContext> options)
     {
         using var context = new AppDbContext(options);
