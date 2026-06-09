@@ -41,22 +41,10 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
         builder.Property(l => l.CreatedDate)
             .IsRequired();
 
-        builder.Property(l => l.BillId)
-            .IsRequired(false);
-
-        builder.Property(l => l.Address)
-            .IsRequired(false)
-            .HasMaxLength(500);
-
         builder.HasOne(l => l.Product)
             .WithMany(p => p.LineItems)
             .HasForeignKey(l => l.ProductId)
             .HasPrincipalKey(p => p.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(l => l.Bill)
-            .WithMany()
-            .HasForeignKey(l => l.BillId)
-            .OnDelete(DeleteBehavior.SetNull);
     }
 }

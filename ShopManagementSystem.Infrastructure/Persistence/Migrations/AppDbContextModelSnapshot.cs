@@ -140,13 +140,6 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("BillId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -180,8 +173,6 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BillId");
 
                     b.HasIndex("ProductId");
 
@@ -266,19 +257,12 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("ShopManagementSystem.Domain.Entities.LineItem", b =>
                 {
-                    b.HasOne("ShopManagementSystem.Domain.Entities.Bill", "Bill")
-                        .WithMany()
-                        .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("ShopManagementSystem.Domain.Entities.Product", "Product")
                         .WithMany("LineItems")
                         .HasForeignKey("ProductId")
                         .HasPrincipalKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Bill");
 
                     b.Navigation("Product");
                 });

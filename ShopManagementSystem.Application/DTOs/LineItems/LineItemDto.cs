@@ -4,8 +4,6 @@ public class LineItemDto
 {
     public Guid Id { get; set; }
     public string ProductId { get; set; } = string.Empty;
-    public int? BillId { get; set; }
-    public string? Address { get; set; }
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
@@ -18,8 +16,6 @@ public class LineItemDto
 public class CreateLineItemDto
 {
     public string ProductId { get; set; } = string.Empty;
-    public int? BillId { get; set; }
-    public string? Address { get; set; }
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
@@ -31,8 +27,6 @@ public class CreateLineItemDto
 public class UpdateLineItemDto
 {
     public string ProductId { get; set; } = string.Empty;
-    public int? BillId { get; set; }
-    public string? Address { get; set; }
     public decimal PurchasePrice { get; set; }
     public decimal Gst { get; set; }
     public int Quantity { get; set; }
