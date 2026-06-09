@@ -56,15 +56,15 @@ public class CustomerService : ICustomerService
         return _mapper.Map<CustomerDto>(customer);
     }
 
-    public async Task<CustomerDto> UpdateAsync(int id, UpdateCustomerDto dto, CancellationToken cancellationToken = default)
+    public async Task<CustomerDto> UpdateAsync(UpdateCustomerDto dto, CancellationToken cancellationToken = default)
     {
-        var customer = await _unitOfWork.Customers.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException($"Customer with id {id} was not found.");
+        var customer = await _unitOfWork.Customers.GetByPhoneNumberAsync(dto.PhoneNumber, cancellationToken)
+            ?? throw new NotFoundException($"Customer with phone number '{dto.PhoneNumber}' was not found.");
 
-        if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, id, cancellationToken))
-        {
-            throw new BusinessRuleException($"Phone number '{dto.PhoneNumber}' already exists.");
-        }
+        // if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, customer.Id, cancellationToken))
+        // {
+        //     throw new BusinessRuleException($"Phone number '{dto.PhoneNumber}' already exists.");
+        // }
 
         _mapper.Map(dto, customer);
         await _unitOfWork.Customers.UpdateAsync(customer, cancellationToken);
@@ -73,10 +73,10 @@ public class CustomerService : ICustomerService
         return _mapper.Map<CustomerDto>(customer);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string phoneNumber, CancellationToken cancellationToken = default)
     {
-        var customer = await _unitOfWork.Customers.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException($"Customer with id {id} was not found.");
+        var customer = await _unitOfWork.Customers.GetByPhoneNumberAsync(phoneNumber, cancellationToken)
+            ?? throw new NotFoundException($"Customer with phone number '{phoneNumber}' was not found.");
 
         await _unitOfWork.Customers.DeleteAsync(customer, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

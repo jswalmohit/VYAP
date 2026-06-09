@@ -8,6 +8,6 @@ public interface ICustomerService
     Task<CustomerDto> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     Task<CustomerDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default);
     Task<CustomerDto> CreateAsync(CreateCustomerDto dto, CancellationToken cancellationToken = default);
-    Task<CustomerDto> UpdateAsync(int id, UpdateCustomerDto dto, CancellationToken cancellationToken = default);
-    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task<CustomerDto> UpdateAsync(UpdateCustomerDto dto, CancellationToken cancellationToken = default);
+    Task DeleteAsync(string phoneNumber, CancellationToken cancellationToken = default);
 }

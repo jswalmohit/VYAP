@@ -11,6 +11,8 @@ public interface ILineItemService
     Task<IReadOnlyList<LineItemDto>> CreateBulkAsync(IEnumerable<CreateLineItemDto> dtos, CancellationToken cancellationToken = default);
     Task<LineItemDto> UpdateAsync(Guid id, UpdateLineItemDto dto, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<LineItemDto>> UpdateBulkAsync(IEnumerable<UpdateLineItemBulkDto> dtos, CancellationToken cancellationToken = default);
+    //Task<IReadOnlyList<LineItemDto>> SellProductAsync(SellProductDto dto, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<LineItemDto>> SellProductsAsync(IEnumerable<SellProductDto> dtos, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<Guid>> DeleteBulkAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken = default);
 }

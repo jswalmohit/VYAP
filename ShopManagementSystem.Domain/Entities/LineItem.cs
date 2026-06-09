@@ -9,6 +9,8 @@ public class LineItem
     public int Quantity { get; set; }
     public string SellerGSTIN { get; set; } = string.Empty;
     public string SellerName { get; set; } = string.Empty;
+    public string? Address { get; set; }
+    public string? SellerInvoice { get; set; }
     public DateTime PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
     public Product Product { get; set; } = null!;

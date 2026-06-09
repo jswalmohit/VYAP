@@ -74,6 +74,26 @@ public class LineItemsController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(lineItems, "Line items created successfully."));
     }
 
+    // [HttpPost("sellProduct")]
+    // [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<LineItemDto>>), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    // [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    // public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> SellProduct([FromBody] SellProductDto dto, CancellationToken cancellationToken)
+    // {
+    //     var updatedLineItems = await _lineItemService.SellProductAsync(dto, cancellationToken);
+    //     return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(updatedLineItems, "Product sold successfully."));
+    // }
+
+    [HttpPost("sellProducts")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<LineItemDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> SellProducts([FromBody] IEnumerable<SellProductDto> dtos, CancellationToken cancellationToken)
+    {
+        var updatedLineItems = await _lineItemService.SellProductsAsync(dtos, cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(updatedLineItems, "Products sold successfully."));
+    }
+
     [HttpPut("bulk")]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<LineItemDto>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]

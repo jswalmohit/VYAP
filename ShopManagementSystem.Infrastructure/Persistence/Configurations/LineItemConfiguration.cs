@@ -35,6 +35,12 @@ public class LineItemConfiguration : IEntityTypeConfiguration<LineItem>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.Property(l => l.Address)
+            .HasMaxLength(500);
+
+        builder.Property(l => l.SellerInvoice)
+            .HasMaxLength(200);
+
         builder.Property(l => l.PurchaseDate)
             .IsRequired();
 

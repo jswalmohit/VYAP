@@ -20,8 +20,8 @@ export const ApiEndpoints = {
     getById: (id: number) => `${API_BASE_URL}/api/customers/${id}`,
     getByPhone: (phoneNumber: string) => `${API_BASE_URL}/api/customers/phone/${phoneNumber}`,
     create: `${API_BASE_URL}/api/customers`,
-    update: (id: number) => `${API_BASE_URL}/api/customers/${id}`,
-    delete: (id: number) => `${API_BASE_URL}/api/customers/${id}`,
+    update: (phoneNumber: string) => `${API_BASE_URL}/api/customers/${phoneNumber}`,
+    delete: (phoneNumber: string) => `${API_BASE_URL}/api/customers/${phoneNumber}`,
   },
   bills: {
     create: `${API_BASE_URL}/api/bills`,
