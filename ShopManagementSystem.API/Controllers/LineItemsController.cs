@@ -33,13 +33,13 @@ public class LineItemsController : ControllerBase
         var lineItem = await _lineItemService.GetByIdAsync(id, cancellationToken);
         return Ok(ApiResponse<LineItemDto>.Ok(lineItem));
     }
-
-    [HttpGet("product/{productId}")]
+    [HttpGet("product")]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<LineItemDto>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> GetByProductId(string productId, CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<LineItemDto>>>> GetByProductId(
+        [FromQuery] string productId,
+        CancellationToken cancellationToken)
     {
-        productId = HttpUtility.UrlDecode(productId);
         var lineItems = await _lineItemService.GetByProductIdAsync(productId, cancellationToken);
         return Ok(ApiResponse<IReadOnlyList<LineItemDto>>.Ok(lineItems));
     }
