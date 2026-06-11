@@ -12,6 +12,5 @@ public class Product
     public DateTime? PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
 
-    public ICollection<BillItem> BillItems { get; set; } = new List<BillItem>();
     public ICollection<LineItem> LineItems { get; set; } = new List<LineItem>();
 }

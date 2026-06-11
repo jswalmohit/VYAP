@@ -144,26 +144,6 @@ All endpoints return a consistent wrapper:
 }
 ```
 
-### Bills
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/bills` | Create bill (validates stock, deducts inventory) |
-| GET | `/api/bills` | Get all bills |
-| GET | `/api/bills/{id}` | Get bill by ID with line items |
-| GET | `/api/bills/customer/{customerId}` | Get bills for a customer |
-
-**Create Bill Request:**
-```json
-{
-  "customerId": 1,
-  "items": [
-    { "productId": 1, "quantity": 2 },
-    { "productId": 3, "quantity": 5 }
-  ]
-}
-```
-
 ## Business Rules
 
 - `ProductId` must be unique across products

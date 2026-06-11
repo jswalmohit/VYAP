@@ -16,13 +16,11 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         Products = new ProductRepository(context);
         Customers = new CustomerRepository(context);
-        Bills = new BillRepository(context);
         LineItems = new LineItemRepository(context);
     }
 
     public IProductRepository Products { get; }
     public ICustomerRepository Customers { get; }
-    public IBillRepository Bills { get; }
     public ILineItemRepository LineItems { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

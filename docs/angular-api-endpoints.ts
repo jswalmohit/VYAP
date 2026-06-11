@@ -23,12 +23,6 @@ export const ApiEndpoints = {
     update: (phoneNumber: string) => `${API_BASE_URL}/api/customers/${phoneNumber}`,
     delete: (phoneNumber: string) => `${API_BASE_URL}/api/customers/${phoneNumber}`,
   },
-  bills: {
-    create: `${API_BASE_URL}/api/bills`,
-    getAll: `${API_BASE_URL}/api/bills`,
-    getById: (id: number) => `${API_BASE_URL}/api/bills/${id}`,
-    getByCustomer: (customerId: number) => `${API_BASE_URL}/api/bills/customer/${customerId}`,
-  },
 } as const;
 
 /** Example Angular environment.ts */

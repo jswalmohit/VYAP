@@ -1,5 +1,4 @@
 using AutoMapper;
-using ShopManagementSystem.Application.DTOs.Bills;
 using ShopManagementSystem.Application.DTOs.Customers;
 using ShopManagementSystem.Application.DTOs.LineItems;
 using ShopManagementSystem.Application.DTOs.Products;
@@ -22,11 +21,5 @@ public class MappingProfile : Profile
         CreateMap<LineItem, LineItemDto>();
         CreateMap<CreateLineItemDto, LineItem>();
         CreateMap<UpdateLineItemDto, LineItem>();
-
-        CreateMap<BillItem, BillItemDto>()
-            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName));
-
-        CreateMap<Bill, BillDto>()
-            .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.CustomerName));
     }
 }
