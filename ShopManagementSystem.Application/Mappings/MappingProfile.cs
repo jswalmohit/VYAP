@@ -2,6 +2,7 @@ using AutoMapper;
 using ShopManagementSystem.Application.DTOs.Customers;
 using ShopManagementSystem.Application.DTOs.LineItems;
 using ShopManagementSystem.Application.DTOs.Products;
+using ShopManagementSystem.Application.DTOs.Sales;
 using ShopManagementSystem.Domain.Entities;
 
 namespace ShopManagementSystem.Application.Mappings;
@@ -21,5 +22,9 @@ public class MappingProfile : Profile
         CreateMap<LineItem, LineItemDto>();
         CreateMap<CreateLineItemDto, LineItem>();
         CreateMap<UpdateLineItemDto, LineItem>();
+
+        CreateMap<Sale, SaleDto>();
+        CreateMap<CreateSaleDto, Sale>();
+        CreateMap<UpdateSaleDto, Sale>();
     }
 }

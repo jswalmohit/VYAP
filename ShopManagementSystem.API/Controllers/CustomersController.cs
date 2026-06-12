@@ -42,7 +42,7 @@ public class CustomersController : ControllerBase
         return Ok(ApiResponse<CustomerDto>.Ok(customer));
     }
 
-    [HttpPost]
+    [HttpPost("CreateCustomer")]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ApiResponse<CustomerDto>>> Create([FromBody] CreateCustomerDto dto, CancellationToken cancellationToken)
