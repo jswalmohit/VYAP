@@ -23,7 +23,9 @@ public class CreateProductDtoValidator : AbstractValidator<CreateProductDto>
 
         RuleFor(x => x.Gst)
             .InclusiveBetween(0, 100).WithMessage("Gst must be between 0 and 100.");
-
+        RuleFor(x => x.HSN)
+            .NotEmpty().WithMessage("HSN is required.")
+            .MaximumLength(50).WithMessage("HSN must not exceed 50 characters.");
         RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0).WithMessage("Quantity must be greater than or equal to 0.");
 
@@ -52,6 +54,10 @@ public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
 
         RuleFor(x => x.Gst)
             .InclusiveBetween(0, 100).WithMessage("Gst must be between 0 and 100.");
+
+        RuleFor(x => x.HSN)
+            .NotEmpty().WithMessage("HSN is required.")
+            .MaximumLength(50).WithMessage("HSN must not exceed 50 characters.");
 
         RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0).WithMessage("Quantity must be greater than or equal to 0.");

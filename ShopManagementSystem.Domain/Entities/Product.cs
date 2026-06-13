@@ -8,6 +8,7 @@ public class Product
     public decimal CostPrice { get; set; }
     public decimal SalePrice { get; set; } = 0m;
     public decimal Gst { get; set; }
+    public string HSN { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public DateTime? PurchaseDate { get; set; }
     public DateTime CreatedDate { get; set; }
