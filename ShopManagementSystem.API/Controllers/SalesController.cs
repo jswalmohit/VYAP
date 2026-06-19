@@ -22,7 +22,7 @@ public class SalesController : ControllerBase
     public async Task<ActionResult<ApiResponse<SaleDto>>> Create([FromBody] CreateSaleDto dto, CancellationToken cancellationToken)
     {
         var sale = await _salesService.CreateAsync(dto, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = sale.Id }, ApiResponse<SaleDto>.Ok(sale, "Sale created successfully."));
+        return CreatedAtAction(nameof(GetById), new { id = sale.Id }, ApiResponse<SaleDto>.Ok(sale, "Product sold successfully."));
     }
 
     [HttpGet]
@@ -58,11 +58,11 @@ public class SalesController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<SaleDto>>.Ok(sales));
     }
 
-    [HttpGet("bill/{billNo}")]
+    [HttpGet("invoice/{invoiceNo}")]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<SaleDto>>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<IReadOnlyList<SaleDto>>>> GetByBillNo(string billNo, CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<SaleDto>>>> GetByInvoiceNo(string invoiceNo, CancellationToken cancellationToken)
     {
-        var sales = await _salesService.GetByBillNoAsync(billNo, cancellationToken);
+        var sales = await _salesService.GetByInvoiceNoAsync(invoiceNo, cancellationToken);
         return Ok(ApiResponse<IReadOnlyList<SaleDto>>.Ok(sales));
     }
 

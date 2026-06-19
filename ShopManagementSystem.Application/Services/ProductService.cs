@@ -79,4 +79,21 @@ public class ProductService : IProductService
         await _unitOfWork.Products.DeleteAsync(product, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<ProductDto> DecreaseQuantityAsync(string productId, int quantity, CancellationToken cancellationToken = default)
+    {
+        var product = await _unitOfWork.Products.GetByProductIdAsync(productId, cancellationToken)
+            ?? throw new NotFoundException($"Product with id {productId} was not found.");
+
+        if (product.Quantity < quantity)
+        {
+            throw new BusinessRuleException($"Insufficient quantity. Available: {product.Quantity}, Requested: {quantity}");
+        }
+
+        product.Quantity -= quantity;
+        await _unitOfWork.Products.UpdateAsync(product, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return _mapper.Map<ProductDto>(product);
+    }
 }

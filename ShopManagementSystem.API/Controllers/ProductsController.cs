@@ -21,7 +21,7 @@ public class ProductsController : ControllerBase
     public async Task<ActionResult<ApiResponse<IReadOnlyList<ProductDto>>>> GetAll(CancellationToken cancellationToken)
     {
         var products = await _productService.GetAllAsync(cancellationToken);
-        return Ok(ApiResponse<IReadOnlyList<ProductDto>>.Ok(products));
+        return Ok(ApiResponse<IReadOnlyList<ProductDto>>.Ok(products, "Product created succeessfully"));
     }
 
     [HttpGet("{id:int}")]

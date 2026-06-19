@@ -9,7 +9,7 @@ public interface ISalesService
     Task<IReadOnlyList<SaleDto>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<SaleDto>> GetByProductIdAsync(string productId, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<SaleDto>> GetByCustomerIdAsync(string customerId, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<SaleDto>> GetByBillNoAsync(string billNo, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<SaleDto>> GetByInvoiceNoAsync(string invoiceNo, CancellationToken cancellationToken = default);
     Task<SaleDto> UpdateAsync(UpdateSaleDto dto, CancellationToken cancellationToken = default);
     Task DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

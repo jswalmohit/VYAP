@@ -50,4 +50,5 @@ public class SellProductDto
 {
     public string ProductId { get; set; } = string.Empty;
     public int Quantity { get; set; }
+    public decimal? SellingPrice { get; set; }
 }

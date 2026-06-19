@@ -1,4 +1,5 @@
-using AutoMapper;
+﻿using AutoMapper;
+    using ShopManagementSystem.Application.DTOs.LineItems;
 using ShopManagementSystem.Application.DTOs.Sales;
 using ShopManagementSystem.Application.Exceptions;
 using ShopManagementSystem.Application.Interfaces;
@@ -9,23 +10,69 @@ public class SalesService : ISalesService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IInvoiceNumberService _invoiceNumberService;
+    private readonly ILineItemService _lineItemService;
 
-    public SalesService(IUnitOfWork unitOfWork, IMapper mapper)
+    public SalesService(IUnitOfWork unitOfWork, IMapper mapper, IInvoiceNumberService invoiceNumberService, ILineItemService lineItemService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _invoiceNumberService = invoiceNumberService;
+        _lineItemService = lineItemService;
     }
 
     public async Task<SaleDto> CreateAsync(CreateSaleDto dto, CancellationToken cancellationToken = default)
     {
-        var sale = _mapper.Map<Sale>(dto);
-        sale.CreatedDate = DateTime.UtcNow;
-        sale.SaleDate = dto.SaleDate;
+        // Validate product list
+        if (dto.ProductList == null || !dto.ProductList.Any())
+        {
+            throw new BusinessRuleException("ProductList cannot be empty.");
+        }
 
-        await _unitOfWork.Sales.AddAsync(sale, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        // Generate invoice number
+        var invoiceNumber = _invoiceNumberService.GetOrGenerateInvoiceNumber();
 
-        return _mapper.Map<SaleDto>(sale);
+        // Update inventory using LineItemService (handles transaction & quantity validation)
+        await _lineItemService.SellProductsAsync(dto.ProductList, cancellationToken);
+
+        try
+        {
+            // Create and save a sale record for each product in the list
+            foreach (var product in dto.ProductList)
+            {
+                // Verify product exists
+                var productEntity = await _unitOfWork.Products.GetByProductIdAsync(product.ProductId, cancellationToken);
+                if (productEntity == null)
+                {
+                    throw new NotFoundException($"Product with id {product.ProductId} was not found.");
+                }
+
+                // Use provided SellingPrice or fallback to product's SalePrice
+                var sellingPrice = product.SellingPrice ?? productEntity.SalePrice;
+
+                var sale = new Sale
+                {
+                    ProductId = product.ProductId,
+                    CustomerId = dto.CustomerId,
+                    Quantity = product.Quantity,
+                    SellingPrice = sellingPrice,
+                    SaleDate = DateTime.UtcNow,
+                    InvoiceNo = invoiceNumber,
+                    CreatedDate = DateTime.UtcNow
+                };
+
+                await _unitOfWork.Sales.AddAsync(sale, cancellationToken);
+                
+            }
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.Message);
+        }
+
+        return _mapper.Map<SaleDto>(new Sale { InvoiceNo = invoiceNumber });
     }
 
     public async Task<SaleDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -55,9 +102,9 @@ public class SalesService : ISalesService
         return _mapper.Map<IReadOnlyList<SaleDto>>(sales);
     }
 
-    public async Task<IReadOnlyList<SaleDto>> GetByBillNoAsync(string billNo, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<SaleDto>> GetByInvoiceNoAsync(string invoiceNo, CancellationToken cancellationToken = default)
     {
-        var sales = await _unitOfWork.Sales.GetByBillNoAsync(billNo, cancellationToken);
+        var sales = await _unitOfWork.Sales.GetByInvoiceNoAsync(invoiceNo, cancellationToken);
         return _mapper.Map<IReadOnlyList<SaleDto>>(sales);
     }
 
@@ -84,3 +131,4 @@ public class SalesService : ISalesService
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
+

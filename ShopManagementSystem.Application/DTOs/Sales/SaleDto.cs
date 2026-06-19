@@ -7,7 +7,7 @@ public class SaleDto
     public string CustomerId { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal SellingPrice { get; set; }
-    public string BillNo { get; set; } = string.Empty;
+    public string InvoiceNo { get; set; } = string.Empty;
     public DateTime SaleDate { get; set; }
     public DateTime CreatedDate { get; set; }
 }

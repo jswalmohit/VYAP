@@ -27,7 +27,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
             .IsRequired()
             .HasPrecision(18, 2);
 
-        builder.Property(x => x.BillNo)
+        builder.Property(x => x.InvoiceNo)
             .IsRequired()
             .HasMaxLength(200);
 
@@ -37,7 +37,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.CreatedDate)
             .IsRequired();
 
-        builder.HasIndex(x => x.BillNo).IsUnique();
+        builder.HasIndex(x => x.InvoiceNo);
         builder.HasIndex(x => x.ProductId);
         builder.HasIndex(x => x.CustomerId);
         builder.HasIndex(x => x.SaleDate);

@@ -34,9 +34,9 @@ public class SaleRepository : ISaleRepository
         return await _context.Sales.AsNoTracking().Where(x => x.CustomerId == customerId).ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Sale>> GetByBillNoAsync(string billNo, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Sale>> GetByInvoiceNoAsync(string invoiceNo, CancellationToken cancellationToken = default)
     {
-        return await _context.Sales.AsNoTracking().Where(x => x.BillNo == billNo).ToListAsync(cancellationToken);
+        return await _context.Sales.AsNoTracking().Where(x => x.InvoiceNo == invoiceNo).ToListAsync(cancellationToken);
     }
 
     public async Task AddAsync(Sale sale, CancellationToken cancellationToken = default)
