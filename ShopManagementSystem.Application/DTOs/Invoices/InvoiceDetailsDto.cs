@@ -27,8 +27,8 @@ public class InvoiceLineItemDto
     public decimal UnitPrice { get; set; }
     public decimal CGSTRate { get; set; }
     public decimal SGSTRate { get; set; }
-    public decimal CGSTAmt => (CGSTRate/100) * UnitPrice;
-    public decimal SGSTAmt => (SGSTRate/100) * UnitPrice;
+    public decimal CGSTAmt => (CGSTRate/100) * UnitPrice * Quantity;
+    public decimal SGSTAmt => (SGSTRate/100) * UnitPrice * Quantity;
     public decimal GSTTotal => CGSTAmt + SGSTAmt;
     public decimal AmountBeforeTax => Quantity * UnitPrice;
     public decimal AmountWithGST => AmountBeforeTax + GSTTotal;
