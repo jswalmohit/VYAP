@@ -166,11 +166,19 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("CGSTRate")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("IPAddress")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -187,12 +195,21 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("datetime2");
+                    b.Property<decimal>("SGSTRate")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
-                    b.Property<decimal>("SellingPrice")
+                    b.Property<decimal>("USP")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -202,7 +219,7 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SaleDate");
+                    b.HasIndex("UpdatedDate");
 
                     b.ToTable("Sales", (string)null);
                 });

@@ -23,7 +23,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.Quantity)
             .IsRequired();
 
-        builder.Property(x => x.SellingPrice)
+        builder.Property(x => x.USP)
             .IsRequired()
             .HasPrecision(18, 2);
 
@@ -31,15 +31,30 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(x => x.SaleDate)
+        builder.Property(x => x.UpdatedDate)
             .IsRequired();
 
         builder.Property(x => x.CreatedDate)
             .IsRequired();
 
+        builder.Property(x => x.CGSTRate)
+            .IsRequired()
+            .HasPrecision(5, 2);
+
+        builder.Property(x => x.SGSTRate)
+            .IsRequired()
+            .HasPrecision(5, 2);
+
+        builder.Property(x => x.UpdatedBy)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(x => x.IPAddress)
+            .HasMaxLength(50);
+
         builder.HasIndex(x => x.InvoiceNo);
         builder.HasIndex(x => x.ProductId);
         builder.HasIndex(x => x.CustomerId);
-        builder.HasIndex(x => x.SaleDate);
+        builder.HasIndex(x => x.UpdatedDate);
     }
 }

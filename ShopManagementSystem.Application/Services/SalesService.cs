@@ -47,18 +47,22 @@ public class SalesService : ISalesService
                     throw new NotFoundException($"Product with id {product.ProductId} was not found.");
                 }
 
-                // Use provided SellingPrice or fallback to product's SalePrice
-                var sellingPrice = product.SellingPrice ?? productEntity.SalePrice;
+                // Use provided USP or fallback to product's SalePrice
+                var usp = product.USP ?? productEntity.SalePrice;
 
                 var sale = new Sale
                 {
                     ProductId = product.ProductId,
                     CustomerId = dto.CustomerId,
                     Quantity = product.Quantity,
-                    SellingPrice = sellingPrice,
-                    SaleDate = DateTime.UtcNow,
+                    USP = usp,
+                    UpdatedDate = DateTime.UtcNow,
                     InvoiceNo = invoiceNumber,
-                    CreatedDate = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow,
+                    CGSTRate = dto.CGSTRate,
+                    SGSTRate = dto.SGSTRate,
+                    UpdatedBy = dto.UpdatedBy,
+                    IPAddress = dto.IPAddress
                 };
 
                 await _unitOfWork.Sales.AddAsync(sale, cancellationToken);

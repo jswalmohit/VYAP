@@ -89,7 +89,7 @@ public class InvoiceService : IInvoiceService
                 UnitPrice = product.SalePrice,
                 CGST = product.Gst / 2, // Assuming CGST is half of total GST
                 SGST = product.Gst / 2, // Assuming SGST is half of total GST
-                Amount = sale.Quantity * sale.SellingPrice,
+                Amount = sale.Quantity * sale.USP,
                 Discount = 0 // Can be extended with discount logic
             };
 
@@ -124,7 +124,7 @@ public class InvoiceService : IInvoiceService
         var invoiceDetails = new InvoiceDetailsDto
         {
             InvoiceNumber = invoiceNo,
-            Date = firstSale.SaleDate,
+            Date = firstSale.UpdatedDate,
             AmountBeforeTax = amountBeforeTax,
             CGSTRate = cgstRate,
             SGSTRate = sgstRate,
