@@ -50,5 +50,7 @@ public class SellProductDto
 {
     public string ProductId { get; set; } = string.Empty;
     public int Quantity { get; set; }
+    public decimal CGSTRate { get; set; }
+    public decimal SGSTRate { get; set; }
     public decimal? USP { get; set; }
 }

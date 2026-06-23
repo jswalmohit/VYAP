@@ -59,8 +59,8 @@ public class SalesService : ISalesService
                     UpdatedDate = DateTime.UtcNow,
                     InvoiceNo = invoiceNumber,
                     CreatedDate = DateTime.UtcNow,
-                    CGSTRate = dto.CGSTRate,
-                    SGSTRate = dto.SGSTRate,
+                    CGSTRate = product.CGSTRate,
+                    SGSTRate = product.SGSTRate,
                     UpdatedBy = dto.UpdatedBy,
                     IPAddress = dto.IPAddress
                 };

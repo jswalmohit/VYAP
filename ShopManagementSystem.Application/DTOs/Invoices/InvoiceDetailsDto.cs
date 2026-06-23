@@ -25,9 +25,13 @@ public class InvoiceLineItemDto
     public string HSN { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-    public decimal CGST { get; set; }
-    public decimal SGST { get; set; }
-    public decimal Amount { get; set; }
+    public decimal CGSTRate { get; set; }
+    public decimal SGSTRate { get; set; }
+    public decimal CGSTAmt => (CGSTRate/100) * UnitPrice;
+    public decimal SGSTAmt => (SGSTRate/100) * UnitPrice;
+    public decimal GSTTotal => CGSTAmt + SGSTAmt;
+    public decimal AmountBeforeTax => Quantity * UnitPrice;
+    public decimal AmountWithGST => AmountBeforeTax + GSTTotal;
     public decimal Discount { get; set; }
 }
 
@@ -39,8 +43,8 @@ public class InvoiceDetailsDto
     public string InvoiceNumber { get; set; } = string.Empty;
     public DateTime Date { get; set; }
     public decimal AmountBeforeTax { get; set; }
-    public decimal CGSTRate { get; set; }
-    public decimal SGSTRate { get; set; }
+    public decimal? CGSTRate { get; set; }
+    public decimal? SGSTRate { get; set; }
     public decimal CGSTAmount { get; set; }
     public decimal SGSTAmount { get; set; }
     public decimal GSTTotal { get; set; }

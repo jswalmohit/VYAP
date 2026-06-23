@@ -82,14 +82,13 @@ public class InvoiceService : IInvoiceService
 
             var lineItem = new InvoiceLineItemDto
             {
-                ProductId = sale.ProductId,
                 ProductDescription = product.ProductName,
                 HSN = product.HSN,
+                ProductId = sale.ProductId,
                 Quantity = sale.Quantity,
-                UnitPrice = product.SalePrice,
-                CGST = product.Gst / 2, // Assuming CGST is half of total GST
-                SGST = product.Gst / 2, // Assuming SGST is half of total GST
-                Amount = sale.Quantity * sale.USP,
+                UnitPrice = sale.USP,
+                CGSTRate = sale.CGSTRate, 
+                SGSTRate = sale.SGSTRate,
                 Discount = 0 // Can be extended with discount logic
             };
 
@@ -109,15 +108,15 @@ public class InvoiceService : IInvoiceService
         IReadOnlyList<InvoiceLineItemDto> lineItems)
     {
         // Calculate amounts
-        decimal amountBeforeTax = lineItems.Sum(li => li.Amount - (li.CGST + li.SGST));
-        decimal cgstTotal = lineItems.Sum(li => li.CGST);
-        decimal sgstTotal = lineItems.Sum(li => li.SGST);
+        decimal amountBeforeTax = lineItems.Sum(li => li.AmountBeforeTax);
+        decimal cgstTotal = lineItems.Sum(li => li.CGSTAmt);
+        decimal sgstTotal = lineItems.Sum(li => li.SGSTAmt);
         decimal gstTotal = cgstTotal + sgstTotal;
         decimal amountTotal = amountBeforeTax + gstTotal;
 
         // Calculate average tax rates
-        decimal cgstRate = lineItems.Any() ? lineItems.Average(li => li.CGST) : 0;
-        decimal sgstRate = lineItems.Any() ? lineItems.Average(li => li.SGST) : 0;
+        //decimal cgstRate = lineItems.Any() ? lineItems.Average(li => li.CGST) : 0;
+        //decimal sgstRate = lineItems.Any() ? lineItems.Average(li => li.SGST) : 0;
 
         var customerDetails = MapCustomerDetails(customer);
 
@@ -126,8 +125,8 @@ public class InvoiceService : IInvoiceService
             InvoiceNumber = invoiceNo,
             Date = firstSale.UpdatedDate,
             AmountBeforeTax = amountBeforeTax,
-            CGSTRate = cgstRate,
-            SGSTRate = sgstRate,
+            //CGSTRate = cgstRate,
+            //SGSTRate = sgstRate,
             CGSTAmount = cgstTotal,
             SGSTAmount = sgstTotal,
             GSTTotal = gstTotal,
