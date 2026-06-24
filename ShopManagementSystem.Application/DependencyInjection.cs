@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ILineItemService, LineItemService>();
         services.AddScoped<ISalesService, SalesService>();
         services.AddScoped<IInvoiceService, InvoiceService>();
+        services.AddScoped<IProductTypeService, ProductTypeService>();
         services.AddSingleton<IInvoiceNumberService, InvoiceNumberService>();
 
         return services;

@@ -18,12 +18,14 @@ public class UnitOfWork : IUnitOfWork
         Customers = new CustomerRepository(context);
         LineItems = new LineItemRepository(context);
         Sales = new SaleRepository(context);
+        ProductTypes = new ProductTypeRepository(context);
     }
 
     public IProductRepository Products { get; }
     public ICustomerRepository Customers { get; }
     public ILineItemRepository LineItems { get; }
     public ISaleRepository Sales { get; }
+    public IProductTypeRepository ProductTypes { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
