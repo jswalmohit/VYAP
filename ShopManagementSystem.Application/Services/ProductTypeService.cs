@@ -21,7 +21,7 @@ public class ProductTypeService : IProductTypeService
     public async Task<IReadOnlyList<ProductTypeDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var productTypes = await _unitOfWork.ProductTypes.GetAllAsync(cancellationToken);
-        return _mapper.Map<IReadOnlyList<ProductTypeDto>>(productTypes);
+        return _mapper.Map<IReadOnlyList<ProductTypeDto>>(productTypes.OrderBy(x=> x.Type));
     }
 
     public async Task<ProductTypeDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
