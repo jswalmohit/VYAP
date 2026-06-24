@@ -17,12 +17,14 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Moq" Version="4.20.70" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\ShopManagementSystem.Infrastructure\ShopManagementSystem.Infrastructure.csproj" />
     <ProjectReference Include="..\..\ShopManagementSystem.Application\ShopManagementSystem.Application.csproj" />
     <ProjectReference Include="..\..\ShopManagementSystem.Domain\ShopManagementSystem.Domain.csproj" />
+    <ProjectReference Include="..\..\ShopManagementSystem.API\ShopManagementSystem.API.csproj" />
   </ItemGroup>
 
 </Project>
