@@ -56,16 +56,24 @@ public static class DbInitializer
         {
             new()
             {
+                CustomerId = "CUST001",
                 CustomerName = "Rahul Sharma",
                 PhoneNumber = "9876543210",
-                Address = "123 MG Road, Bangalore",
+                AddressLine1 = "123 MG Road",
+                District = "Bangalore",
+                State = "Karnataka",
+                Pincode = 560001,
                 CreatedDate = DateTime.UtcNow
             },
             new()
             {
+                CustomerId = "CUST002",
                 CustomerName = "Priya Patel",
                 PhoneNumber = "9123456780",
-                Address = "45 Park Street, Mumbai",
+                AddressLine1 = "45 Park Street",
+                District = "Mumbai",
+                State = "Maharashtra",
+                Pincode = 400001,
                 CreatedDate = DateTime.UtcNow
             }
         };

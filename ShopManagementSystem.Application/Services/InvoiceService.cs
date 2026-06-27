@@ -151,9 +151,9 @@ public class InvoiceService : IInvoiceService
             Email = string.Empty, // To be populated when Customer entity is extended
             GSTIN = string.Empty, // To be populated when Customer entity is extended
             Aadhar = string.Empty, // To be populated when Customer entity is extended
-            AddressLine1 = customer.Address ?? string.Empty,
-            AddressLine2 = string.Empty, // To be populated when Customer entity is extended
-            AddressLine3 = string.Empty  // To be populated when Customer entity is extended
+            AddressLine1 = customer.AddressLine1 ?? string.Empty,
+            AddressLine2 = customer.AddressLine2 ?? string.Empty,
+            AddressLine3 = customer.AddressLine3 ?? string.Empty
         };
     }
 }

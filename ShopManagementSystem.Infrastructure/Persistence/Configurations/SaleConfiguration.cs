@@ -2,7 +2,7 @@ namespace ShopManagementSystem.Infrastructure.Persistence.Configurations;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopManagementSystem.Domain.Entities;
+using global::ShopManagementSystem.Domain.Entities;
 
 public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 {

@@ -24,12 +24,18 @@ public class CustomerService : ICustomerService
         return _mapper.Map<IReadOnlyList<CustomerDto>>(customers);
     }
 
-    public async Task<CustomerDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<CustomerDto> GetByIdAsync(string customerId, CancellationToken cancellationToken = default)
     {
-        var customer = await _unitOfWork.Customers.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException($"Customer with id {id} was not found.");
+        var customer = await _unitOfWork.Customers.GetByCustomerIdAsync(customerId, cancellationToken)
+            ?? throw new NotFoundException($"Customer with id {customerId} was not found.");
 
         return _mapper.Map<CustomerDto>(customer);
+    }
+
+    public async Task<IReadOnlyList<CustomerDto>> SearchAsync(string searchString, CancellationToken cancellationToken = default)
+    {
+        var customers = await _unitOfWork.Customers.SearchAsync(searchString, cancellationToken);
+        return _mapper.Map<IReadOnlyList<CustomerDto>>(customers);
     }
 
     public async Task<CustomerDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
@@ -42,12 +48,15 @@ public class CustomerService : ICustomerService
 
     public async Task<CustomerDto> CreateAsync(CreateCustomerDto dto, CancellationToken cancellationToken = default)
     {
-        if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, cancellationToken: cancellationToken))
+        if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, excludeCustomerId: dto.CustomerId, cancellationToken: cancellationToken))
         {
             throw new BusinessRuleException($"Phone number '{dto.PhoneNumber}' already exists.");
         }
 
         var customer = _mapper.Map<Customer>(dto);
+        customer.CustomerId = string.IsNullOrWhiteSpace(dto.CustomerId)
+            ? Guid.NewGuid().ToString("N")
+            : dto.CustomerId!;
         customer.CreatedDate = DateTime.UtcNow;
 
         await _unitOfWork.Customers.AddAsync(customer, cancellationToken);
@@ -61,7 +70,7 @@ public class CustomerService : ICustomerService
         var customer = await _unitOfWork.Customers.GetByPhoneNumberAsync(dto.PhoneNumber, cancellationToken)
             ?? throw new NotFoundException($"Customer with phone number '{dto.PhoneNumber}' was not found.");
 
-        // if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, customer.Id, cancellationToken))
+        // if (!await _unitOfWork.Customers.IsPhoneNumberUniqueAsync(dto.PhoneNumber, customer.CustomerId, cancellationToken))
         // {
         //     throw new BusinessRuleException($"Phone number '{dto.PhoneNumber}' already exists.");
         // }

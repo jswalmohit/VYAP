@@ -1,9 +1,9 @@
-namespace ShopManagementSystem.Infrastructure.Repositories;
-
 using Microsoft.EntityFrameworkCore;
-using ShopManagementSystem.Domain.Entities;
-using ShopManagementSystem.Domain.Interfaces;
-using ShopManagementSystem.Infrastructure.Persistence;
+using global::ShopManagementSystem.Domain.Entities;
+using global::ShopManagementSystem.Domain.Interfaces;
+using global::ShopManagementSystem.Infrastructure.Persistence;
+
+namespace ShopManagementSystem.Infrastructure.Repositories;
 
 public class SaleRepository : ISaleRepository
 {

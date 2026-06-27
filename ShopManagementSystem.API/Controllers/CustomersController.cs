@@ -24,12 +24,12 @@ public class CustomersController : ControllerBase
         return Ok(ApiResponse<IReadOnlyList<CustomerDto>>.Ok(customers));
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{customerId}")]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApiResponse<CustomerDto>>> GetById(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<CustomerDto>>> GetById(string customerId, CancellationToken cancellationToken)
     {
-        var customer = await _customerService.GetByIdAsync(id, cancellationToken);
+        var customer = await _customerService.GetByIdAsync(customerId, cancellationToken);
         return Ok(ApiResponse<CustomerDto>.Ok(customer));
     }
 
@@ -42,13 +42,21 @@ public class CustomersController : ControllerBase
         return Ok(ApiResponse<CustomerDto>.Ok(customer));
     }
 
+    [HttpGet("search/{searchString}")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<CustomerDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IReadOnlyList<CustomerDto>>>> GetBySearchString(string searchString, CancellationToken cancellationToken)
+    {
+        var customers = await _customerService.SearchAsync(searchString, cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<CustomerDto>>.Ok(customers));
+    }
+
     [HttpPost("CreateCustomer")]
     [ProducesResponseType(typeof(ApiResponse<CustomerDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ApiResponse<CustomerDto>>> Create([FromBody] CreateCustomerDto dto, CancellationToken cancellationToken)
     {
         var customer = await _customerService.CreateAsync(dto, cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id = customer.Id }, ApiResponse<CustomerDto>.Ok(customer, "Customer created successfully."));
+        return CreatedAtAction(nameof(GetById), new { customerId = customer.CustomerId }, ApiResponse<CustomerDto>.Ok(customer, "Customer created successfully."));
     }
 
     [HttpPut()]
