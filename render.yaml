@@ -4,10 +4,3 @@ services:
     runtime: docker
     plan: free
     healthCheckPath: /api/HealthCheck
-    envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: ASPNETCORE_URLS
-        value: http://+:80
-      # Set DATABASE_CONNECTION_STRING in Render dashboard with your SQL Server connection string
-      # Example format: "Server=your-server.database.windows.net;Database=your-db;User Id=your-user;Password=your-password;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
