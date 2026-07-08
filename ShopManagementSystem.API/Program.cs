@@ -10,18 +10,18 @@ using ShopManagementSystem.Infrastructure.Persistence.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var port = Environment.GetEnvironmentVariable("PORT");
-if (!string.IsNullOrWhiteSpace(port))
-{
-    builder.WebHost.UseUrls($"http://*:{port}");
-}
+// var port = Environment.GetEnvironmentVariable("PORT");
+// if (!string.IsNullOrWhiteSpace(port))
+// {
+//     builder.WebHost.UseUrls($"http://*:{port}");
+// }
 
 // Override connection string from environment variable if available (for Render deployment)
-var connectionStringEnv = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
-if (!string.IsNullOrWhiteSpace(connectionStringEnv))
-{
-    builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionStringEnv;
-}
+// var connectionStringEnv = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+// if (!string.IsNullOrWhiteSpace(connectionStringEnv))
+// {
+//     builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionStringEnv;
+// }
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -95,7 +95,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "VyapSetu Shop Management API v1");
         options.RoutePrefix = "swagger";
     });
-}
+}   
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
